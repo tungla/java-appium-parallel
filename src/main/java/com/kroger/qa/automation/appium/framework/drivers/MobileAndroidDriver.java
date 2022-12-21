@@ -10,6 +10,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MobileAndroidDriver implements MobileAppDriver {
@@ -91,6 +92,24 @@ public class MobileAndroidDriver implements MobileAppDriver {
         return capabilities;
     }
 
+    private void LogDriverCapabilities(){
+        Log.info("----- Android Driver Capabilities -----");
+        Log.info("appiumPort: " + this.appiumPort);
+        Log.info("platformName: " + this.platformName);
+        Log.info("platformVersion: " + this.platformVersion);
+        Log.info("deviceName: " + this.deviceName);
+        Log.info("app: " + this.app);
+        Log.info("appPackage: " + this.appPackage);
+        Log.info("appActivity: " + this.appActivity);
+        Log.info("udid: " + this.udid);
+        Log.info("noReset: " + this.noReset);
+        Log.info("fullReset:  " + this.fullReset);
+        Log.info("printPageSourceOnFindFailure: " + this.printPageSourceOnFindFailure);
+        Log.info("avdLaunchTimeout: " + this.avdLaunchTimeout);
+        Log.info("avdLaunchTimeout: " + this.avdReadyTimeout);
+        Log.info("---------------------------------------");
+    }
+
     /** Singleton
      * The same instance of AppiumDriver will be returned no matter how many times it is called.
      * This ensures that only one instance of the driver exists at any time.
@@ -103,6 +122,7 @@ public class MobileAndroidDriver implements MobileAppDriver {
             validateRequiredParams();
             DesiredCapabilities capabilities = getDesiredCapabilities();
             String url = String.format("http://localhost:%s/wd/hub", this.appiumPort);
+            LogDriverCapabilities();
             driver = new AndroidDriver<>(new URL(url), capabilities);
         }
 
