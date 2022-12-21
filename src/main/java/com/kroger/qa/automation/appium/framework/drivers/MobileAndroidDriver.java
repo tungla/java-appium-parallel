@@ -77,7 +77,7 @@ public class MobileAndroidDriver implements MobileAppDriver {
         capabilities.setCapability("platformName", this.platformName);
         capabilities.setCapability("platformVersion", this.platformVersion);
         capabilities.setCapability("deviceName", this.deviceName);
-        capabilities.setCapability("apkPath", this.app);
+        capabilities.setCapability("app", this.app);
         capabilities.setCapability("appPackage", this.appPackage);
         capabilities.setCapability("appActivity", this.appActivity);
         capabilities.setCapability("udid", this.udid);

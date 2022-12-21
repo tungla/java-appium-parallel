@@ -11,7 +11,7 @@
 <!--    <parameter name="singleSessionSuite" value="true"/>-->
     <parameter name="appPackage" value="com.kroger.flexpickup" />
     <parameter name="appActivity" value="com.kroger.flexpickup.androidApp.login.LoginActivity" />
-    <parameter name="app" value="apps/latest/androidApp-local-debug.apk"/>
+    <parameter name="app" value="/Users/hiperezr/code/kroger/automation/flex-native-qa/apps/latest/androidApp-local-debug.apk"/>
     <parameter name="deviceName" value="Pixel_6_API_33"/>
 
 

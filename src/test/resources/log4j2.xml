@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <appenders>
-        <File name="AutomationFile" fileName="target/mobileAutomation.log" append="true">
+        <File name="logFile" fileName="target/mobileAutomation.log" append="true">
             <PatternLayout pattern="%d{ISO8601}{GMT} %p %m%n"/>
         </File>
-        <Console name="AutomationConsole" target="SYSTEM_OUT">
+        <Console name="stdout" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{ISO8601}{GMT} %p %m%n"/>
         </Console>
     </appenders>
     <loggers>
         <root level="INFO">
-            <appender-ref ref="AutomationFile"/>
-            <appender-ref ref="AutomationConsole"/>
+            <appender-ref ref="logFile"/>
+            <appender-ref ref="stdout"/>
         </root>
     </loggers>
 </configuration>
