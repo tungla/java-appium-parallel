@@ -33,6 +33,11 @@ public class SystemUtils {
     }
 
     public static class Android {
+
+        /** Prerequisites:
+         * Install ADB on the machine
+         * <a href="https://developer.android.com/studio/command-line/adb">...</a>
+         * */
         public static List<String> getADBDevices() {
             List<String> devices = new ArrayList<>();
             String[] command = {"adb", "devices"};

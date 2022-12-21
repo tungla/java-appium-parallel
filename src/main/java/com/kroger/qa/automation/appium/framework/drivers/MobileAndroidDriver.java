@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class MobileAndroidDriver implements MobileAppDriver {
+public class MobileAndroidDriver extends BaseMobileDriver implements MobileAppDriver {
 
     private static AndroidDriver<MobileElement> driver;
     private String appiumPort;
@@ -51,33 +51,21 @@ public class MobileAndroidDriver implements MobileAppDriver {
         this.avdReadyTimeout = xmlParameters.get("avdReadyTimeout") == null ? Constants.APPIUM.OPTIONAL_PARAMS.ANDROID.AVD.READY_TIMEOUT : xmlParameters.get("avdReadyTimeout");
     }
 
-    private void validateRequiredParams(){
-        HashMap<String, String> requiredParams = new HashMap<>();
-        requiredParams.put("platformName", this.platformName);
-        requiredParams.put("platformVersion", this.platformVersion);
-        requiredParams.put("deviceName", this.deviceName);
-        requiredParams.put("app", this.app);
-        requiredParams.put("appPackage", this.appPackage);
-        requiredParams.put("appActivity", this.appActivity);
-
-        for (String key : requiredParams.keySet()) {
-            if (requiredParams.get(key) == null){
-                String message = String.format("Required parameter '%s' is missing from the XML file", key);
-                Log.error(message);
-                throw new IllegalArgumentException(message);
-            }
-        }
+    private HashMap<String, String> getRequiredParams() {
+        return new HashMap<String, String>() {{
+            put("platformName", platformName);
+            put("platformVersion", platformVersion);
+            put("deviceName", deviceName);
+            put("app", app);
+            put("appPackage", appPackage);
+            put("appActivity", appActivity);
+        }};
     }
 
-    private void validateAppExists(){
-        if (!SystemUtils.Common.fileOrFolderExists(this.app)){
-            String message = String.format("The app '%s' does not exist", this.app);
-            Log.error(message);
-            throw new IllegalArgumentException(message);
-        }
-
-        Log.info(String.format("The app '%s' exists", this.app));
-    }
+    /** Prerequisites:
+     * Install ADB on the machine
+     * <a href="https://developer.android.com/studio/command-line/adb">...</a>
+     * */
 
     private void validateDeviceNameExists(){
         List<String> devices = SystemUtils.Android.getADBDevices();
@@ -125,7 +113,7 @@ public class MobileAndroidDriver implements MobileAppDriver {
         return capabilities;
     }
 
-    private void LogDriverCapabilities(){
+    private void LogMobileDriverCapabilities(){
         Log.info("----- Android Driver Capabilities -----");
         Log.info("appiumPort: " + this.appiumPort);
         Log.info("platformName: " + this.platformName);
@@ -152,12 +140,12 @@ public class MobileAndroidDriver implements MobileAppDriver {
         if(driver == null){
             this.xmlParameters = xmlParameters;
             initialize();
-            validateRequiredParams();
-            validateAppExists();
+            validateRequiredParams(getRequiredParams());
+            validateAppExists(this.app);
             validateDeviceNameExists();
             DesiredCapabilities capabilities = getDesiredCapabilities();
+            LogMobileDriverCapabilities();
             String url = String.format("http://localhost:%s/wd/hub", this.appiumPort);
-            LogDriverCapabilities();
             driver = new AndroidDriver<>(new URL(url), capabilities);
         }
 
