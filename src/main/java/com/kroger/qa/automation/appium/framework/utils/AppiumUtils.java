@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Appium {
+public class AppiumUtils {
     public static boolean serverIsRunning(String appiumPort) {
         try {
             URL url = new URL(String.format("http://localhost:%s/wd/hub/sessions", appiumPort));
@@ -18,7 +18,7 @@ public class Appium {
     }
 
     public static void validateServerIsRunning(String appiumPort) {
-        if(!Appium.serverIsRunning(appiumPort)){
+        if(!AppiumUtils.serverIsRunning(appiumPort)){
             String message = "Appium server is NOT running";
             Log.error(message);
             throw new RuntimeException(message);

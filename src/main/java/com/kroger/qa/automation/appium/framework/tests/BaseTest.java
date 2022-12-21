@@ -6,7 +6,7 @@ import com.kroger.qa.automation.appium.framework.drivers.MobileIOSDriver;
 import com.kroger.qa.automation.appium.framework.enums.Platform;
 import com.kroger.qa.automation.appium.framework.testng.TestNGXMLParameters;
 import com.kroger.qa.automation.appium.framework.utils.AndroidEmulatorValidator;
-import com.kroger.qa.automation.appium.framework.utils.Appium;
+import com.kroger.qa.automation.appium.framework.utils.AppiumUtils;
 import com.kroger.qa.automation.appium.framework.utils.Log;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
@@ -41,7 +41,7 @@ public class BaseTest extends TestNGXMLParameters {
     public void setupMobileDriver() throws MalformedURLException {
         validateMobilePlatform();
         String appiumPort = xmlParameters.get("appiumPort") == null ? Constants.APPIUM.DEFAULT_PARAMS.APPIUM_PORT : xmlParameters.get("appiumPort");
-        Appium.validateServerIsRunning(appiumPort);
+        AppiumUtils.validateServerIsRunning(appiumPort);
         AndroidEmulatorValidator.validateEmulatorIsRunning();
         mobileDriver = platform.equals(Platform.ANDROID) ? new MobileAndroidDriver().getDriver(xmlParameters) : new MobileIOSDriver().getDriver(xmlParameters);
     }

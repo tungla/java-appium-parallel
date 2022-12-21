@@ -3,6 +3,7 @@ package com.kroger.qa.automation.appium.framework.drivers;
 import com.kroger.qa.automation.appium.framework.Constants;
 import com.kroger.qa.automation.appium.framework.interfaces.MobileAppDriver;
 import com.kroger.qa.automation.appium.framework.utils.Log;
+import com.kroger.qa.automation.appium.framework.utils.SystemUtils;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -12,6 +13,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 public class MobileAndroidDriver implements MobileAppDriver {
 
@@ -67,6 +69,37 @@ public class MobileAndroidDriver implements MobileAppDriver {
         }
     }
 
+    private void validateAppExists(){
+        if (!SystemUtils.Common.fileOrFolderExists(this.app)){
+            String message = String.format("The app '%s' does not exist", this.app);
+            Log.error(message);
+            throw new IllegalArgumentException(message);
+        }
+
+        Log.info(String.format("The app '%s' exists", this.app));
+    }
+
+    private void validateDeviceNameExists(){
+        List<String> devices = SystemUtils.Android.getADBDevices();
+        boolean deviceExists = false;
+        for (String device : devices) {
+            String[] command = {"adb", "-s", device, "shell", "getprop", "ro.boot.qemu.avd_name"};
+            List<String> output = SystemUtils.Common.runSystemCommand(command);
+            if (output != null && output.contains(this.deviceName)){
+                deviceExists = true;
+                break;
+            }
+        }
+
+        if (!deviceExists){
+            String message = String.format("The deviceName '%s' does not exist", this.deviceName);
+            Log.error(message);
+            throw new IllegalArgumentException(message);
+        }
+
+        Log.info(String.format("The deviceName '%s' exists", this.deviceName));
+    }
+
     /**
      * <a href="https://github.com/appium/appium-uiautomator2-driver#capabilities">...</a>
      * <a href="https://github.com/appium/appium-xcuitest-driver">...</a>
@@ -120,6 +153,8 @@ public class MobileAndroidDriver implements MobileAppDriver {
             this.xmlParameters = xmlParameters;
             initialize();
             validateRequiredParams();
+            validateAppExists();
+            validateDeviceNameExists();
             DesiredCapabilities capabilities = getDesiredCapabilities();
             String url = String.format("http://localhost:%s/wd/hub", this.appiumPort);
             LogDriverCapabilities();
