@@ -1,0 +1,26 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="SUITE NAME" verbose="1">
+
+    <parameter name="appiumPort" value="4723"/>
+    <parameter name="platformName" value="ios"/>
+    <parameter name="platformVersion" value="15.5"/>
+    <parameter name="deviceName" value="iPhone 13 Pro Max"/>
+    <parameter name="fullReset" value="true"/>
+<!--    <parameter name="wait" value="10"/>-->
+<!--    <parameter name="singleSessionSuite" value="true"/>-->
+    <parameter name="app" value="apps/main_branch/12_01_22__23_16_00/iosAppAppiumTest.app"/>
+    <parameter name="bundleId" value="com.kroger.flexpickup"/>
+    <parameter name="udid" value="DE093215-FD96-4FF3-9491-DCE9130A7553"/>
+    <parameter name="clearSystemFiles" value="true"/>
+
+    <test name="Test Example" >
+        <groups>
+            <run>
+                <include name="testExample"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="com.kroger.qa.automation.appium.framework"/>
+        </packages>
+    </test>
+</suite>

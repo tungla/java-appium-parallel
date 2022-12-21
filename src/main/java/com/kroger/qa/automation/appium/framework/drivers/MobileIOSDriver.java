@@ -1,0 +1,97 @@
+package com.kroger.qa.automation.appium.framework.drivers;
+
+import com.kroger.qa.automation.appium.framework.Constants;
+import com.kroger.qa.automation.appium.framework.interfaces.MobileAppDriver;
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
+
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
+public class MobileIOSDriver implements MobileAppDriver {
+    private static AppiumDriver<MobileElement> driver;
+
+    private String appiumPort;
+    private String platformName;
+    private String platformVersion;
+    private String deviceName;
+    private String fullReset;
+    private String app;
+    private String bundleId;
+    private String udid;
+    private String clearSystemFiles;
+    Map<String, String> xmlParameters;
+
+    private void initialize() {
+        // Required parameters
+        this.platformName = xmlParameters.get(platformName);
+        this.platformVersion = xmlParameters.get(platformVersion);
+        this.deviceName = xmlParameters.get(deviceName);
+        this.app = xmlParameters.get(app);
+        this.bundleId = xmlParameters.get(bundleId);
+        this.udid = xmlParameters.get(udid);
+        // Optional params
+        this.appiumPort = xmlParameters.get(appiumPort) == null ? Constants.APPIUM.DEFAULT_PARAMS.APPIUM_PORT : xmlParameters.get(appiumPort);
+        this.fullReset = xmlParameters.get(fullReset) == null ? Constants.APPIUM.OPTIONAL_PARAMS.IOS.GENERAL.FULL_RESET : xmlParameters.get(fullReset);
+        this.clearSystemFiles = xmlParameters.get(clearSystemFiles) == null ? Constants.APPIUM.OPTIONAL_PARAMS.IOS.GENERAL.CLEAR_SYSTEM_FILES: xmlParameters.get(clearSystemFiles);
+    }
+
+    private void validateRequiredParams(){
+        HashMap<String, String> requiredParams = new HashMap<String, String>() {{
+            put("platformName", platformName); put("platformVersion", platformVersion);
+            put("deviceName", deviceName); put("app", app);
+            put("bundleId", bundleId); put("udid", udid);
+        }};
+        
+        for (String key : requiredParams.keySet()) {
+            if (requiredParams.get(key) == null)
+                throw new IllegalArgumentException("Required parameter " + key + " is missing");
+        }
+    }
+
+    /**
+     * <a href="https://appium.io/docs/en/writing-running-appium/caps/index.html">...</a>
+     * <a href="https://github.com/appium/appium-xcuitest-driver">...</a>
+     * */
+    private  DesiredCapabilities getDesiredCapabilities() {
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        // Required params
+        capabilities.setCapability("platformName", this.platformName);
+        capabilities.setCapability("platformVersion", this.platformVersion);
+        capabilities.setCapability("deviceName", this.deviceName);
+        capabilities.setCapability("app", this.app);
+        capabilities.setCapability("bundleId", this.bundleId);
+        capabilities.setCapability("udid", this.udid);
+        // Default params
+        capabilities.setCapability(
+                "automationName", Constants.APPIUM.DEFAULT_PARAMS.IOS.GENERAL.AUTOMATION_NAME);
+        capabilities.setCapability(
+                "resetOnSessionStartOnly", Constants.APPIUM.DEFAULT_PARAMS.IOS.GENERAL.RESET_ON_SESSION_START_ONLY);
+        // Optional params
+        capabilities.setCapability("fullReset", this.fullReset);
+        capabilities.setCapability("clearSystemFiles", this.clearSystemFiles);
+        return capabilities;
+    }
+
+    /** Singleton
+     * The same instance of AppiumDriver will be returned no matter how many times it is called.
+     * This ensures that only one instance of the driver exists at any time.
+     * */
+    @Override
+    public AppiumDriver<MobileElement> getDriver(Map<String, String> xmlParameters) throws MalformedURLException {
+        if(driver == null){
+            this.xmlParameters = xmlParameters;
+            initialize();
+            validateRequiredParams();
+            DesiredCapabilities capabilities = getDesiredCapabilities();
+            String url = String.format("http://localhost:%s/wd/hub", this.appiumPort);
+            driver = new AppiumDriver<>(new URL(url), capabilities);
+        }
+
+        return driver;
+    }
+}
