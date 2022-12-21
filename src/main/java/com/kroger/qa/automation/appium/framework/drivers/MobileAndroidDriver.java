@@ -85,7 +85,7 @@ public class MobileAndroidDriver extends BaseMobileDriver implements MobileAppDr
             throw new IllegalArgumentException(message);
         }
 
-        Log.info(String.format("The deviceName '%s' exists", this.deviceName));
+        Log.debug(String.format("The deviceName '%s' exists", this.deviceName));
     }
 
     /**
@@ -138,6 +138,7 @@ public class MobileAndroidDriver extends BaseMobileDriver implements MobileAppDr
     @Override
     public AndroidDriver<MobileElement> getDriver(Map<String, String> xmlParameters) throws MalformedURLException {
         if(driver == null){
+            Log.debug("Creating a new AndroidDriver instance");
             this.xmlParameters = xmlParameters;
             initialize();
             validateRequiredParams(getRequiredParams());

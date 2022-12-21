@@ -16,7 +16,7 @@ public class Log {
 
         LogLevel level;
 
-        try { level = LogLevel.valueOf(System.getProperty("log", "info").toUpperCase()); }
+        try { level = LogLevel.valueOf(System.getProperty("logLevel", "info").toUpperCase()); }
         catch (IllegalArgumentException ignored) { level = LogLevel.INFO; }
 
         switch (level) {

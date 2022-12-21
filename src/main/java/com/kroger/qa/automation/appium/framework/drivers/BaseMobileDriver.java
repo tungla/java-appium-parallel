@@ -14,7 +14,7 @@ public class BaseMobileDriver {
             throw new IllegalArgumentException(message);
         }
 
-        Log.info(String.format("The app '%s' exists", app));
+        Log.debug(String.format("The app '%s' exists", app));
     }
 
     protected void validateRequiredParams(HashMap<String, String> requiredParams){

@@ -4,7 +4,7 @@ import com.kroger.qa.automation.appium.framework.Constants;
 import com.kroger.qa.automation.appium.framework.drivers.MobileAndroidDriver;
 import com.kroger.qa.automation.appium.framework.drivers.MobileIOSDriver;
 import com.kroger.qa.automation.appium.framework.enums.Platform;
-import com.kroger.qa.automation.appium.framework.testng.TestNGXMLParameters;
+import com.kroger.qa.automation.appium.framework.testng.XMLParameters;
 import com.kroger.qa.automation.appium.framework.utils.AndroidEmulatorValidator;
 import com.kroger.qa.automation.appium.framework.utils.AppiumUtils;
 import com.kroger.qa.automation.appium.framework.utils.Log;
@@ -18,7 +18,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class BaseTest extends TestNGXMLParameters {
+/**
+ * The BaseTest class contains the common methods for all the test classes.
+ * This class MUST be extended by all the test classes in order to initialize the mobile driver.
+ * */
+public class BaseTest extends XMLParameters {
     AppiumDriver<MobileElement> mobileDriver;
     Platform platform;
 
@@ -48,7 +52,9 @@ public class BaseTest extends TestNGXMLParameters {
 
     @AfterSuite(alwaysRun = true)
     public void tearDown() {
-        if(mobileDriver != null)
+        if(mobileDriver != null){
+            Log.debug("The suite execution is completed. Quitting the mobile driver.");
             mobileDriver.quit();
+        }
     }
 }

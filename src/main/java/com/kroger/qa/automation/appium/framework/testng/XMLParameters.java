@@ -7,7 +7,7 @@ import org.testng.annotations.Parameters;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestNGXMLParameters {
+public class XMLParameters {
     protected static Map<String, String> xmlParameters;
 
     @Parameters({
@@ -16,7 +16,7 @@ public class TestNGXMLParameters {
             "avdLaunchTimeout", "avdReadyTimeout", "bundleId", "clearSystemFiles"
     })
     @BeforeSuite(alwaysRun = true)
-    public void beforeSuite(
+    public void retrieveXMLParams(
             @Optional String appiumPort, @Optional String platformName, @Optional String platformVersion,
             @Optional String deviceName, @Optional String fullReset, @Optional String app,
             @Optional String appPackage, @Optional String appActivity,
