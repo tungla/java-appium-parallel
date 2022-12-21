@@ -24,7 +24,6 @@ public class TestNGXMLParameters {
             @Optional String avdLaunchTimeout, @Optional String avdReadyTimeout, @Optional String bundleId,
             @Optional String clearSystemFiles
     ) {
-        System.out.print("****BeforeSuite 1****\n");
         xmlParameters = new HashMap<>();
         xmlParameters.put("platformName", platformName);
         xmlParameters.put("platformVersion", platformVersion);

@@ -2,6 +2,7 @@ package com.kroger.qa.automation.appium.framework.drivers;
 
 import com.kroger.qa.automation.appium.framework.Constants;
 import com.kroger.qa.automation.appium.framework.interfaces.MobileAppDriver;
+import com.kroger.qa.automation.appium.framework.utils.Log;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -57,8 +58,11 @@ public class MobileAndroidDriver implements MobileAppDriver {
         requiredParams.put("appActivity", this.appActivity);
 
         for (String key : requiredParams.keySet()) {
-            if (requiredParams.get(key) == null)
-                throw new IllegalArgumentException("Required parameter " + key + " is missing");
+            if (requiredParams.get(key) == null){
+                String message = String.format("Required parameter '%s' is missing from the XML file", key);
+                Log.error(message);
+                throw new IllegalArgumentException(message);
+            }
         }
     }
 

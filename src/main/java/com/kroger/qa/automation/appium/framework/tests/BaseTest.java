@@ -1,9 +1,12 @@
 package com.kroger.qa.automation.appium.framework.tests;
 
+import com.kroger.qa.automation.appium.framework.Constants;
 import com.kroger.qa.automation.appium.framework.drivers.MobileAndroidDriver;
 import com.kroger.qa.automation.appium.framework.drivers.MobileIOSDriver;
 import com.kroger.qa.automation.appium.framework.enums.Platform;
 import com.kroger.qa.automation.appium.framework.testng.TestNGXMLParameters;
+import com.kroger.qa.automation.appium.framework.utils.Appium;
+import com.kroger.qa.automation.appium.framework.utils.Log;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import org.testng.annotations.AfterSuite;
@@ -22,25 +25,27 @@ public class BaseTest extends TestNGXMLParameters {
         List<String> validMobilePlatforms = new ArrayList<>(Arrays.asList("android", "ios"));
         String platformName = xmlParameters.get("platformName").toLowerCase();
 
-        if (!validMobilePlatforms.contains(platformName))
-            throw new IllegalArgumentException(String.format("Invalid platformName: %s. Valid values are: %s",
-                    xmlParameters.get("platformName"), validMobilePlatforms));
+        if (!validMobilePlatforms.contains(platformName)){
+            String message = String.format("Invalid platform name: %s. Valid mobile platforms are: %s",
+                    platformName, validMobilePlatforms);
+            Log.error(message);
+            throw new IllegalArgumentException(message);
+        }
 
-        System.out.printf("xmlParameters.get(\"app\") = %s", xmlParameters.get("app"));
+
         this.platform = (platformName.equalsIgnoreCase("android")) ? Platform.ANDROID : Platform.IOS;
     }
 
     @BeforeSuite(alwaysRun = true)
     public void setupMobileDriver() throws MalformedURLException {
-        System.out.print("****BeforeSuite 2****\n");
         validateMobilePlatform();
-//        mobileDriver = platform.equals(Platform.ANDROID) ? new MobileAndroidDriver().getDriver(xmlParameters) : new MobileIOSDriver().getDriver(xmlParameters);
-                mobileDriver = new MobileAndroidDriver().getDriver(xmlParameters);
+        String appiumPort = xmlParameters.get("appiumPort") == null ? Constants.APPIUM.DEFAULT_PARAMS.APPIUM_PORT : xmlParameters.get("appiumPort");
+        Appium.validateServerIsRunning(appiumPort);
+        mobileDriver = platform.equals(Platform.ANDROID) ? new MobileAndroidDriver().getDriver(xmlParameters) : new MobileIOSDriver().getDriver(xmlParameters);
     }
 
     @AfterSuite(alwaysRun = true)
     public void tearDown() {
-        System.out.print("****After Suite****\n");
         if(mobileDriver != null)
             mobileDriver.quit();
     }
