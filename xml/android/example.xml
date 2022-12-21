@@ -1,14 +1,10 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Android - Flex Pickup Test Cases" verbose="1">
+<suite name="Suite Name" verbose="1">
 
     <parameter name="appiumPort" value="4723"/>
     <parameter name="platformName" value="android"/>
     <parameter name="platformVersion" value="13.0"/>
-<!--    <parameter name="deviceType" value="emulator"/>-->
-<!--    <parameter name="driverType" value="appium"/>-->
     <parameter name="fullReset" value="true"/>
-<!--    <parameter name="wait" value="10"/>-->
-<!--    <parameter name="singleSessionSuite" value="true"/>-->
     <parameter name="appPackage" value="com.kroger.flexpickup" />
     <parameter name="appActivity" value="com.kroger.flexpickup.androidApp.login.LoginActivity" />
     <parameter name="app" value="/Users/hiperezr/code/kroger/automation/flex-native-qa/apps/latest/androidApp-local-debug.apk"/>

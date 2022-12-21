@@ -6,8 +6,6 @@
     <parameter name="platformVersion" value="15.5"/>
     <parameter name="deviceName" value="iPhone 13 Pro Max"/>
     <parameter name="fullReset" value="true"/>
-<!--    <parameter name="wait" value="10"/>-->
-<!--    <parameter name="singleSessionSuite" value="true"/>-->
     <parameter name="app" value="apps/main_branch/12_01_22__23_16_00/iosAppAppiumTest.app"/>
     <parameter name="bundleId" value="com.kroger.flexpickup"/>
     <parameter name="udid" value="DE093215-FD96-4FF3-9491-DCE9130A7553"/>
