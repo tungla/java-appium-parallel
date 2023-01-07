@@ -1,5 +1,4 @@
-# appium-java-framework
-Appium Testing Framework for Java
+Sample code to run tests parallel on multiple android emulator (Java + TestNG + Appium)
 
 
 # Requirements
