@@ -1,0 +1,24 @@
+{
+    "capabilities":
+    [
+      {
+        "udid": "emulator-5554",
+        "platformVersion": "13.0",
+        "maxInstances": 1,
+        "platformName": "Android",
+        "appActivity":"com.android.calendar.LaunchActivity",
+        "appPackage":"com.google.android.calendar"
+      }
+    ],
+    "configuration":
+    {
+      "cleanUpCycle":2000,
+      "timeout":30000,
+      "maxSession": 1,
+      "register": true,
+      "registerCycle": 5000,
+      "hubPort": 4444,
+      "hubHost": "127.0.0.1",
+      "hubProtocol": "http"
+    }
+}

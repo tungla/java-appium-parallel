@@ -7,6 +7,7 @@ import com.kroger.qa.automation.appium.framework.utils.SystemUtils;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 public class MobileAndroidDriver extends BaseMobileDriver implements MobileAppDriver {
 
-    private static AndroidDriver<MobileElement> driver;
+    private AndroidDriver<MobileElement> driver;
     private String appiumPort;
     private String platformName;
     private String platformVersion;
@@ -31,13 +32,14 @@ public class MobileAndroidDriver extends BaseMobileDriver implements MobileAppDr
     private String printPageSourceOnFindFailure;
     private String avdLaunchTimeout;
     private String avdReadyTimeout;
+    private String systemPort;
     Map<String, String> xmlParameters;
 
     private void initialize(){
         // Required parameters
         this.platformName = xmlParameters.get("platformName");
         this.platformVersion = xmlParameters.get("platformVersion");
-        this.deviceName = xmlParameters.get("deviceName");
+//         this.deviceName = xmlParameters.get("deviceName");
         this.app = xmlParameters.get("app");
         this.appPackage = xmlParameters.get("appPackage");
         this.appActivity = xmlParameters.get("appActivity");
@@ -49,13 +51,14 @@ public class MobileAndroidDriver extends BaseMobileDriver implements MobileAppDr
         this.printPageSourceOnFindFailure = xmlParameters.get("printPageSourceOnFindFailure") == null ? Constants.APPIUM.OPTIONAL_PARAMS.ANDROID.GENERAL.PRINT_PAGE_SOURCE_ON_FIND_FAILURE : xmlParameters.get("printPageSourceOnFindFailure");
         this.avdLaunchTimeout = xmlParameters.get("avdLaunchTimeout") == null ? Constants.APPIUM.OPTIONAL_PARAMS.ANDROID.AVD.LAUNCH_TIMEOUT : xmlParameters.get("avdLaunchTimeout");
         this.avdReadyTimeout = xmlParameters.get("avdReadyTimeout") == null ? Constants.APPIUM.OPTIONAL_PARAMS.ANDROID.AVD.READY_TIMEOUT : xmlParameters.get("avdReadyTimeout");
+        this.systemPort = xmlParameters.get("systemPort") == null ? Constants.APPIUM.OPTIONAL_PARAMS.ANDROID.AVD.READY_TIMEOUT : xmlParameters.get("systemPort");
     }
 
     private HashMap<String, String> getRequiredParams() {
         return new HashMap<String, String>() {{
             put("platformName", platformName);
             put("platformVersion", platformVersion);
-            put("deviceName", deviceName);
+            put("udid", udid);
             put("app", app);
             put("appPackage", appPackage);
             put("appActivity", appActivity);
@@ -92,12 +95,12 @@ public class MobileAndroidDriver extends BaseMobileDriver implements MobileAppDr
      * <a href="https://github.com/appium/appium-uiautomator2-driver#capabilities">...</a>
      * <a href="https://github.com/appium/appium-xcuitest-driver">...</a>
      * */
-    private  DesiredCapabilities getDesiredCapabilities() {
         DesiredCapabilities capabilities = new DesiredCapabilities();
+        private  DesiredCapabilities getDesiredCapabilities() {
         // Required params
         capabilities.setCapability("platformName", this.platformName);
         capabilities.setCapability("platformVersion", this.platformVersion);
-        capabilities.setCapability("deviceName", this.deviceName);
+        // capabilities.setCapability("deviceName", this.deviceName);
         capabilities.setCapability("app", this.app);
         capabilities.setCapability("appPackage", this.appPackage);
         capabilities.setCapability("appActivity", this.appActivity);
@@ -107,9 +110,10 @@ public class MobileAndroidDriver extends BaseMobileDriver implements MobileAppDr
         // Optional params
         capabilities.setCapability("noReset", this.noReset);
         capabilities.setCapability("fullReset", this.fullReset);
-        capabilities.setCapability("printPageSourceOnFindFailure", this.printPageSourceOnFindFailure);
+//        capabilities.setCapability("printPageSourceOnFindFailure", this.printPageSourceOnFindFailure);
         capabilities.setCapability("avdLaunchTimeout", this.avdLaunchTimeout);
         capabilities.setCapability("avdReadyTimeout", this.avdReadyTimeout);
+        capabilities.setCapability("systemPort", this.systemPort);
         return capabilities;
     }
 
@@ -128,6 +132,7 @@ public class MobileAndroidDriver extends BaseMobileDriver implements MobileAppDr
         Log.info("printPageSourceOnFindFailure: " + this.printPageSourceOnFindFailure);
         Log.info("avdLaunchTimeout: " + this.avdLaunchTimeout);
         Log.info("avdLaunchTimeout: " + this.avdReadyTimeout);
+        Log.info("systemPort: " + this.systemPort);
         Log.info("---------------------------------------");
     }
 
@@ -141,12 +146,13 @@ public class MobileAndroidDriver extends BaseMobileDriver implements MobileAppDr
             Log.debug("Creating a new AndroidDriver instance");
             this.xmlParameters = xmlParameters;
             initialize();
-            validateRequiredParams(getRequiredParams());
-            validateAppExists(this.app);
-            validateDeviceNameExists();
+//            validateRequiredParams(getRequiredParams());
+//            validateAppExists(this.app);
+//            validateDeviceNameExists();
             DesiredCapabilities capabilities = getDesiredCapabilities();
             LogMobileDriverCapabilities();
             String url = String.format("http://localhost:%s/wd/hub", this.appiumPort);
+            System.out.println(url);
             driver = new AndroidDriver<>(new URL(url), capabilities);
         }
 

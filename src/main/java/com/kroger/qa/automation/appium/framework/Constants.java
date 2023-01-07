@@ -29,6 +29,7 @@ public class Constants {
                     public static final String NO_RESET = "false";
                     public static final String FULL_RESET = "false";
                     public static final String PRINT_PAGE_SOURCE_ON_FIND_FAILURE = "false";
+                    public static final String SYSTEM_PORT = "8201";
                 }
                 public static class AVD {
                     public static final String LAUNCH_TIMEOUT = "60000";

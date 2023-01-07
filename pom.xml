@@ -18,9 +18,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <aspectj.version>1.8.10</aspectj.version>
         <!--TestNG default file-->
-        <suiteFolder>ios</suiteFolder>
+        <suiteFolder>android</suiteFolder>
         <suiteName>example.xml</suiteName>
-        <threads>3</threads>
+        <threads>1</threads>
         <slf4j.version>2.0.5</slf4j.version>
     </properties>
 
